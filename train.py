@@ -239,7 +239,7 @@ if __name__ == '__main__':
 	encoder_n_layers = 2
 	decoder_n_layers = 2
 	dropout = 0.1
-	batch_size = 64
+	batch_size = 128 #64
 
 	# Set checkpoint to load from; set to None if starting from scratch
 	loadFilename = None
@@ -288,7 +288,7 @@ if __name__ == '__main__':
 		teacher_forcing_ratio = 1.0
 		learning_rate = 0.0001
 		decoder_learning_ratio = 5.0
-		n_iteration = arguments.iter if arguments.iter>0 else 4000
+		n_iteration = arguments.iter if arguments.iter > 0 else 4000
 		save_every  = n_iteration / 1
 		print_every = 1
 
@@ -317,7 +317,7 @@ if __name__ == '__main__':
 
 	#-----------
 	# evaluation:
-	
+
 	# Set dropout layers to eval mode
 	encoder.eval()
 	decoder.eval()
