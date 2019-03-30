@@ -289,7 +289,7 @@ if __name__ == '__main__':
 		learning_rate = 0.0001
 		decoder_learning_ratio = 5.0
 		n_iteration = arguments.iter if arguments.iter>0 else 4000
-		save_every  = 2000 
+		save_every  = n_iteration / 1
 		print_every = 1
 
 		# Ensure dropout layers are in train mode
