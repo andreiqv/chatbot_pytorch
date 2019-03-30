@@ -1,3 +1,5 @@
+import torch
+import os
 import sys
 import argparse
 from settings import *
@@ -307,6 +309,11 @@ if __name__ == '__main__':
 		trainIters(model_name, voc, pairs, encoder, decoder, encoder_optimizer, decoder_optimizer,
 				   embedding, encoder_n_layers, decoder_n_layers, save_dir, n_iteration, batch_size,
 				   print_every, save_every, clip, corpus_name, loadFilename)
+
+
+		#os.system('mkdir -p save')
+		#torch.save(encoder, 'save/encoder')
+		#torch.save(decoder, 'save/decoder')
 
 	#-----------
 	else:
