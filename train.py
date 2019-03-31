@@ -2,6 +2,7 @@ import torch
 import os
 import sys
 import argparse
+import settings
 from settings import *
 from model import *
 from voc import *
@@ -86,7 +87,9 @@ def train(input_variable, lengths, target_variable, mask, max_target_len, encode
 	return sum(print_losses) / n_totals
 
 
-def trainIters(model_name, voc, pairs, encoder, decoder, encoder_optimizer, decoder_optimizer, embedding, encoder_n_layers, decoder_n_layers, save_dir, n_iteration, batch_size, print_every, save_every, clip, corpus_name, loadFilename):
+def trainIters(model_name, voc, pairs, encoder, decoder, encoder_optimizer, 
+	decoder_optimizer, embedding, encoder_n_layers, decoder_n_layers, save_dir, 
+	n_iteration, batch_size, print_every, save_every, clip, corpus_name, loadFilename):
 
 	# Load batches for each iteration
 	training_batches = [batch2TrainData(voc, [random.choice(pairs) for _ in range(batch_size)])
@@ -225,7 +228,11 @@ if __name__ == '__main__':
 
 	parser = createParser()
 	arguments = parser.parse_args(sys.argv[1:])			
-	#print('set arguments.tests =', arguments.tests)	
+	#print('set arguments.tests =', arguments.tests)
+	#if arguments.eval:
+	#	loadFilename = loadFilename = os.path.join(save_dir, 'cb_model/corpus/2-2_500/50000_checkpoint.tar')
+	#else:
+	#	loadFilename = None
 
 	# ---------
 	# Run Model
@@ -242,8 +249,16 @@ if __name__ == '__main__':
 	batch_size = 128 #64
 
 	# Set checkpoint to load from; set to None if starting from scratch
-	loadFilename = None
-	checkpoint_iter = 4000
+	checkpoint_iter = 50000
+
+	if arguments.eval:
+		#loadFilename = loadFilename = os.path.join(save_dir, 'cb_model/corpus/2-2_500/50000_checkpoint.tar')
+		loadFilename = os.path.join(save_dir, model_name, corpus_name,
+							'{}-{}_{}'.format(encoder_n_layers, decoder_n_layers, hidden_size),
+							'{}_checkpoint.tar'.format(checkpoint_iter))	
+	else:
+		loadFilename = None	
+	#loadFilename = None	
 	#loadFilename = os.path.join(save_dir, model_name, corpus_name,
 	#							'{}-{}_{}'.format(encoder_n_layers, decoder_n_layers, hidden_size),
 	#							'{}_checkpoint.tar'.format(checkpoint_iter))
@@ -266,14 +281,14 @@ if __name__ == '__main__':
 	print('Building encoder and decoder ...')
 	# Initialize word embeddings
 	embedding = nn.Embedding(voc.num_words, hidden_size)
-	if loadFilename:
-		embedding.load_state_dict(embedding_sd)
 	# Initialize encoder & decoder models
 	encoder = EncoderRNN(hidden_size, embedding, encoder_n_layers, dropout)
 	decoder = LuongAttnDecoderRNN(attn_model, embedding, hidden_size, voc.num_words, decoder_n_layers, dropout)
 	if loadFilename:
+		embedding.load_state_dict(embedding_sd)
 		encoder.load_state_dict(encoder_sd)
 		decoder.load_state_dict(decoder_sd)
+
 	# Use appropriate device
 	encoder = encoder.to(device)
 	decoder = decoder.to(device)
@@ -306,9 +321,11 @@ if __name__ == '__main__':
 
 		# Run training iterations
 		print("Starting Training!")
-		trainIters(model_name, voc, pairs, encoder, decoder, encoder_optimizer, decoder_optimizer,
-				   embedding, encoder_n_layers, decoder_n_layers, save_dir, n_iteration, batch_size,
-				   print_every, save_every, clip, corpus_name, loadFilename)
+		trainIters(model_name, voc, pairs, encoder, decoder, 
+					encoder_optimizer, decoder_optimizer, 
+					embedding, encoder_n_layers, decoder_n_layers, save_dir, 
+					n_iteration, batch_size, print_every, save_every, clip, 
+					corpus_name, loadFilename)
 
 
 		#os.system('mkdir -p save')
