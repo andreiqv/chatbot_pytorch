@@ -17,6 +17,7 @@ import codecs
 from io import open
 import itertools
 import math
+import settings
 from settings import *
 
 USE_CUDA = torch.cuda.is_available()
@@ -88,7 +89,8 @@ def unicodeToAscii(s):
 def normalizeString(s):
     s = unicodeToAscii(s.lower().strip())
     s = re.sub(r"([.!?])", r" \1", s)
-    s = re.sub(r"[^a-zA-Z.!?]+", r" ", s)
+    s = re.sub(r"[^a-zA-Z.!?абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЧЬЭЮЯ]+", r" ", s)
+    #s = re.sub(r"[^a-zA-Z.!?]+", r" ", s)
     s = re.sub(r"\s+", r" ", s).strip()
     return s
 
@@ -105,6 +107,7 @@ def readVocs(datafile, corpus_name):
 
 # Returns True iff both sentences in a pair 'p' are under the MAX_LENGTH threshold
 def filterPair(p):
+    print('p:', p)
     # Input sequences need to preserve the last word for EOS token
     return len(p[0].split(' ')) < MAX_LENGTH and len(p[1].split(' ')) < MAX_LENGTH
 
@@ -128,15 +131,15 @@ def loadPrepareData(corpus, corpus_name, datafile, save_dir):
 
 
 # Load/Assemble voc and pairs
-voc, pairs = loadPrepareData(corpus, corpus_name, datafile, save_dir)
+voc, pairs = loadPrepareData(corpus, corpus_name, datafile, settings.save_dir)
 # Print some pairs to validate
 print("\npairs:")
 for pair in pairs[:5]:
-	print(pair)            
+    print(pair)         
 
 #-----------------
 
-MIN_COUNT = 3    # Minimum word count threshold for trimming
+MIN_COUNT = 3   # Minimum word count threshold for trimming
 
 def trimRareWords(voc, pairs, MIN_COUNT):
     # Trim words used under the MIN_COUNT from the voc

@@ -199,6 +199,7 @@ def evaluateInput(encoder, decoder, searcher, voc):
 			if input_sentence == 'q' or input_sentence == 'quit': break
 			# Normalize sentence
 			input_sentence = normalizeString(input_sentence)
+			print('input_sentence:', input_sentence)
 			# Evaluate sentence
 			output_words = evaluate(encoder, decoder, searcher, voc, input_sentence)
 			# Format and print response sentence
