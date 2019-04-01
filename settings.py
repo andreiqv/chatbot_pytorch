@@ -2,7 +2,8 @@ import os
 ######### 
 data_dir = '../data'
 corpus_name = 'corpus'
-save_dir = "/mnt/video/tmp/save"
+#save_dir = "/mnt/video/tmp/save"
+save_dir = "../save"
 #corpus_name = "corpus"
 corpus = os.path.join(data_dir, corpus_name)
 # Define path to new file
