@@ -248,7 +248,7 @@ if __name__ == '__main__':
 	batch_size = 128 #64
 
 	# Set checkpoint to load from; set to None if starting from scratch
-	checkpoint_iter = 50000
+	checkpoint_iter = 4000
 
 	if arguments.eval:
 		#loadFilename = loadFilename = os.path.join(save_dir, 'cb_model/corpus/2-2_500/50000_checkpoint.tar')
