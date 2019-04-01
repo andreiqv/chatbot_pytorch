@@ -107,7 +107,7 @@ def readVocs(datafile, corpus_name):
 
 # Returns True iff both sentences in a pair 'p' are under the MAX_LENGTH threshold
 def filterPair(p):
-    print('p:', p)
+    #print('p:', p)
     # Input sequences need to preserve the last word for EOS token
     return len(p[0].split(' ')) < MAX_LENGTH and len(p[1].split(' ')) < MAX_LENGTH
 
