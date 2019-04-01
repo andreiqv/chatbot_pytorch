@@ -135,7 +135,9 @@ voc, pairs = loadPrepareData(corpus, corpus_name, datafile, settings.save_dir)
 # Print some pairs to validate
 print("\npairs:")
 for pair in pairs[:5]:
-    print(pair)         
+    #print(pair)
+    pass
+
 
 #-----------------
 
