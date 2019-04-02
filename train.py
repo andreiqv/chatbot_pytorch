@@ -214,7 +214,7 @@ def evaluateExample(encoder, decoder, searcher, voc, sentence):
 	""" The function takes a string input sentence as an argument, 
 	normalizes it, evaluates it, and prints the response.
 	"""
-	print("> " + sentence)
+	print("\n> " + sentence)
 	# Normalize sentence
 	try:
 		input_sentence = normalizeString(sentence)
