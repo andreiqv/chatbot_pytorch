@@ -209,6 +209,22 @@ def evaluateInput(encoder, decoder, searcher, voc):
 		except KeyError:
 			print("Error: Encountered unknown word.")
 
+
+def evaluateExample(encoder, decoder, searcher, voc, sentence):
+	""" The function takes a string input sentence as an argument, 
+	normalizes it, evaluates it, and prints the response.
+	"""
+	print("> " + sentence)
+	# Normalize sentence
+	try:
+		input_sentence = normalizeString(sentence)
+		# Evaluate sentence
+		output_words = evaluate(encoder, decoder, searcher, voc, input_sentence)
+		output_words[:] = [x for x in output_words if not (x == 'EOS' or x == 'PAD')]
+		print('Bot:', ' '.join(output_words))
+	except KeyError:
+		print("Error: Encountered unknown word.")		
+
 #------------
 
 def createParser ():
@@ -341,5 +357,11 @@ if __name__ == '__main__':
 	# Initialize search module
 	searcher = GreedySearchDecoder(encoder, decoder)
 
+	with open(testfile) as fp:
+		for line in fp:
+			sentence = line.strip()
+			evaluateExample(encoder, decoder, searcher, voc, sentence)
+
 	# Begin chatting (uncomment and run the following line to begin)
 	evaluateInput(encoder, decoder, searcher, voc)
+			
