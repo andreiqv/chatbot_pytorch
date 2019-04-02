@@ -363,5 +363,5 @@ if __name__ == '__main__':
 			evaluateExample(encoder, decoder, searcher, voc, sentence)
 
 	# Begin chatting (uncomment and run the following line to begin)
-	evaluateInput(encoder, decoder, searcher, voc)
+	#evaluateInput(encoder, decoder, searcher, voc)
 			
