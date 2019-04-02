@@ -357,7 +357,7 @@ if __name__ == '__main__':
 	# Initialize search module
 	searcher = GreedySearchDecoder(encoder, decoder)
 
-	with open(testfile) as fp:
+	with open(testfile, encoding='utf8') as fp:
 		for line in fp:
 			sentence = line.strip()
 			evaluateExample(encoder, decoder, searcher, voc, sentence)
