@@ -1,3 +1,9 @@
+#
+#
+#
+# if there's a problem with encoding: 
+# export PYTHONIOENCODING=utf-8
+
 import torch
 import os
 import sys
